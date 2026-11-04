@@ -15,51 +15,47 @@ class QuestionForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Penanya & Status')
+                Section::make(__('admin.sections.question_contact'))
                     ->schema([
                         Grid::make(3)->schema([
                             TextInput::make('name')
-                                ->label('Nama Lengkap')
+                                ->label(__('admin.fields.name'))
                                 ->required()
                                 ->maxLength(255),
                             TextInput::make('email')
-                                ->label('Email Penanya')
+                                ->label(__('admin.fields.email'))
                                 ->email()
                                 ->required()
                                 ->maxLength(255),
                             TextInput::make('phone')
-                                ->label('Nomor Telepon/WA')
+                                ->label(__('admin.fields.phone'))
                                 ->maxLength(50),
                             Select::make('topic_id')
-                                ->label('Topik Pertanyaan')
+                                ->label(__('admin.fields.topic'))
                                 ->relationship('topic', 'name')
                                 ->searchable()
                                 ->preload()
                                 ->required(),
                             Select::make('status')
-                                ->label('Status Pertanyaan')
-                                ->options([
-                                    'pending' => 'Menunggu Jawaban',
-                                    'answered' => 'Sudah Dijawab',
-                                    'rejected' => 'Ditolak / Tidak Relevan',
-                                ])
+                                ->label(__('admin.fields.status'))
+                                ->options(fn (): array => __('admin.options.question_status'))
                                 ->default('pending')
                                 ->required(),
                             TextInput::make('ip_address')
-                                ->label('Alamat IP')
+                                ->label(__('admin.fields.ip_address'))
                                 ->disabled()
                                 ->dehydrated(false),
                         ]),
                     ]),
 
-                Section::make('Isi Pertanyaan')
+                Section::make(__('admin.sections.question_body'))
                     ->schema([
                         TextInput::make('subject')
-                            ->label('Subjek / Judul Pertanyaan')
+                            ->label(__('admin.fields.subject'))
                             ->required()
                             ->maxLength(255),
                         Textarea::make('body')
-                            ->label('Detail Pertanyaan')
+                            ->label(__('admin.fields.question_detail'))
                             ->rows(6)
                             ->required()
                             ->columnSpanFull(),

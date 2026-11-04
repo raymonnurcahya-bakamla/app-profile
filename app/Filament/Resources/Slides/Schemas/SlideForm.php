@@ -18,21 +18,21 @@ class SlideForm
         return $schema
             ->components([
                 Grid::make(3)->schema([
-                    Section::make('Konten Slide Banner')
+                    Section::make(__('admin.sections.slide_content'))
                         ->schema([
                             TextInput::make('title')
-                                ->label('Judul Banner')
+                                ->label(__('admin.fields.title'))
                                 ->required()
                                 ->maxLength(255),
                             Textarea::make('description')
-                                ->label('Deskripsi Singkat')
+                                ->label(__('admin.fields.description'))
                                 ->rows(3),
                             TextInput::make('link_url')
-                                ->label('Tautan Target (Opsional)')
+                                ->label(__('admin.fields.link_url'))
                                 ->placeholder('https://... atau /halaman-tujuan')
                                 ->maxLength(255),
                             FileUpload::make('image')
-                                ->label('Gambar Slide (Landscape disarankan)')
+                                ->label(__('admin.fields.banner_image'))
                                 ->disk('public')
                                 ->directory('slides')
                                 ->image()
@@ -43,21 +43,21 @@ class SlideForm
                         ])
                         ->columnSpan(2),
 
-                    Section::make('Jadwal & Pengaturan')
+                    Section::make(__('admin.sections.slide_schedule'))
                         ->schema([
                             Toggle::make('is_active')
-                                ->label('Status Aktif')
+                                ->label(__('admin.fields.is_active'))
                                 ->default(true),
                             TextInput::make('sort_order')
-                                ->label('Urutan Tampilan')
+                                ->label(__('admin.fields.sort_order'))
                                 ->numeric()
                                 ->default(0),
                             DatePicker::make('start_date')
-                                ->label('Mulai Ditampilkan')
-                                ->helperText('Kosongkan jika selalu aktif'),
+                                ->label(__('admin.fields.start_date'))
+                                ->helperText(__('admin.fields.start_date_helper')),
                             DatePicker::make('end_date')
-                                ->label('Selesai Ditampilkan')
-                                ->helperText('Kosongkan jika tanpa batas waktu'),
+                                ->label(__('admin.fields.end_date'))
+                                ->helperText(__('admin.fields.end_date_helper')),
                         ])
                         ->columnSpan(1),
                 ]),

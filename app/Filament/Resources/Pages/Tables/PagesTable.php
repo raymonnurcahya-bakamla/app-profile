@@ -20,47 +20,45 @@ class PagesTable
         return $table
             ->columns([
                 ImageColumn::make('image')
-                    ->label('Sampul')
+                    ->label(__('admin.fields.cover'))
                     ->disk('public')
                     ->circular(),
                 TextColumn::make('title')
-                    ->label('Judul Halaman')
+                    ->label(__('admin.fields.title'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('admin.fields.slug'))
                     ->badge()
                     ->color('gray'),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('admin.fields.status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'published' => 'success',
                         'draft' => 'warning',
                         default => 'gray',
                     })
+                    ->formatStateUsing(fn (string $state): string => __('admin.options.page_status.'.$state) ?: $state)
                     ->sortable(),
                 IconColumn::make('show_in_menu')
-                    ->label('Di Menu')
+                    ->label(__('admin.fields.in_menu'))
                     ->boolean()
                     ->sortable(),
                 TextColumn::make('sort_order')
-                    ->label('Urutan')
+                    ->label(__('admin.fields.sort_order'))
                     ->sortable(),
                 TextColumn::make('updated_at')
-                    ->label('Terakhir Diubah')
+                    ->label(__('admin.fields.updated_at'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('status')
-                    ->label('Status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'published' => 'Dipublikasikan',
-                    ]),
+                    ->label(__('admin.fields.status'))
+                    ->options(fn (): array => __('admin.options.page_status')),
                 TernaryFilter::make('show_in_menu')
-                    ->label('Tampil di Menu')
+                    ->label(__('admin.fields.show_in_menu'))
                     ->boolean(),
             ])
             ->recordActions([

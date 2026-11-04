@@ -15,7 +15,10 @@ class LatestPostsWidget extends TableWidget
 
     protected int|string|array $columnSpan = 'full';
 
-    protected static ?string $heading = 'Artikel & Publikasi Terakhir';
+    public function getTableHeading(): string
+    {
+        return __('admin.widgets.latest_posts.heading');
+    }
 
     public function table(Table $table): Table
     {
@@ -23,26 +26,27 @@ class LatestPostsWidget extends TableWidget
             ->query(fn (): Builder => Post::query()->with('category')->latest('published_at')->limit(5))
             ->columns([
                 TextColumn::make('title')
-                    ->label('Judul Artikel')
+                    ->label(__('admin.fields.title'))
                     ->limit(50)
                     ->wrap(),
                 TextColumn::make('category.name')
-                    ->label('Kategori')
+                    ->label(__('admin.fields.category'))
                     ->badge()
                     ->color('info'),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('admin.fields.status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'published' => 'success',
                         'draft' => 'warning',
                         default => 'gray',
-                    }),
+                    })
+                    ->formatStateUsing(fn (string $state): string => __('admin.options.post_status.'.$state) ?: $state),
                 TextColumn::make('view_count')
-                    ->label('Views')
+                    ->label(__('admin.fields.views'))
                     ->numeric(),
                 TextColumn::make('published_at')
-                    ->label('Waktu Tayang')
+                    ->label(__('admin.fields.published_at'))
                     ->since(),
             ])
             ->recordUrl(fn (Post $record): string => PostResource::getUrl('edit', ['record' => $record]))

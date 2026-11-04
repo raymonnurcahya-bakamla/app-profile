@@ -18,41 +18,41 @@ class QuestionTopicsTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nama Topik')
+                    ->label(__('admin.fields.name'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('admin.fields.slug'))
                     ->badge()
                     ->color('gray'),
                 TextColumn::make('questions_count')
                     ->counts('questions')
-                    ->label('Pertanyaan Masuk')
+                    ->label(__('admin.fields.questions_count'))
                     ->badge()
                     ->color('info')
                     ->sortable(),
                 TextColumn::make('faqs_count')
                     ->counts('faqs')
-                    ->label('Total FAQ')
+                    ->label(__('admin.fields.faqs_count'))
                     ->badge()
                     ->color('success')
                     ->sortable(),
                 IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('admin.fields.active'))
                     ->boolean()
                     ->sortable(),
                 TextColumn::make('sort_order')
-                    ->label('Urutan')
+                    ->label(__('admin.fields.sort_order'))
                     ->sortable(),
                 TextColumn::make('updated_at')
-                    ->label('Terakhir Diubah')
+                    ->label(__('admin.fields.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Status Aktif')
+                    ->label(__('admin.fields.is_active'))
                     ->boolean(),
             ])
             ->recordActions([

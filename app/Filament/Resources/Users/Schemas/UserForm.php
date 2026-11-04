@@ -15,36 +15,32 @@ class UserForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Pengguna')
+                Section::make(__('admin.sections.user_info'))
                     ->schema([
                         Grid::make(2)->schema([
                             TextInput::make('name')
-                                ->label('Nama Lengkap')
+                                ->label(__('admin.fields.name'))
                                 ->required()
                                 ->maxLength(255),
                             TextInput::make('email')
-                                ->label('Alamat Email')
+                                ->label(__('admin.fields.email'))
                                 ->email()
                                 ->required()
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true),
                             TextInput::make('password')
-                                ->label('Kata Sandi')
+                                ->label(__('admin.fields.password'))
                                 ->password()
                                 ->revealable()
                                 ->required(fn (string $operation): bool => $operation === 'create')
                                 ->dehydrated(fn (?string $state): bool => filled($state)),
                             Select::make('role')
-                                ->label('Peran / Hak Akses')
-                                ->options([
-                                    'admin' => 'Admin (Akses Penuh)',
-                                    'editor' => 'Editor (Kelola Konten)',
-                                    'viewer' => 'Viewer (Lihat Saja)',
-                                ])
+                                ->label(__('admin.fields.role'))
+                                ->options(fn (): array => __('admin.options.user_roles'))
                                 ->default('admin')
                                 ->required(),
                             FileUpload::make('avatar')
-                                ->label('Foto Profil / Avatar')
+                                ->label(__('admin.fields.avatar'))
                                 ->disk('public')
                                 ->directory('avatars')
                                 ->image()

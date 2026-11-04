@@ -18,20 +18,20 @@ class UsersTable
         return $table
             ->columns([
                 ImageColumn::make('avatar')
-                    ->label('Avatar')
+                    ->label(__('admin.fields.avatar'))
                     ->circular()
                     ->disk('public'),
                 TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('admin.fields.name'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('admin.fields.email'))
                     ->searchable()
                     ->sortable()
                     ->copyable(),
                 TextColumn::make('role')
-                    ->label('Peran')
+                    ->label(__('admin.fields.role'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'admin' => 'danger',
@@ -39,21 +39,18 @@ class UsersTable
                         'viewer' => 'info',
                         default => 'gray',
                     })
+                    ->formatStateUsing(fn (string $state): string => __('admin.options.user_roles_simple.'.$state) ?: $state)
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Terdaftar')
+                    ->label(__('admin.fields.registered_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('role')
-                    ->label('Peran')
-                    ->options([
-                        'admin' => 'Admin',
-                        'editor' => 'Editor',
-                        'viewer' => 'Viewer',
-                    ]),
+                    ->label(__('admin.fields.role'))
+                    ->options(fn (): array => __('admin.options.user_roles_simple')),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -20,10 +20,10 @@ class PageForm
         return $schema
             ->components([
                 Grid::make(3)->schema([
-                    Section::make('Konten Halaman')
+                    Section::make(__('admin.sections.page_content'))
                         ->schema([
                             TextInput::make('title')
-                                ->label('Judul Halaman')
+                                ->label(__('admin.fields.title'))
                                 ->required()
                                 ->maxLength(255)
                                 ->live(onBlur: true)
@@ -32,41 +32,38 @@ class PageForm
                                     Str::slug($state ?? '')
                                 )),
                             TextInput::make('slug')
-                                ->label('Slug URL')
+                                ->label(__('admin.fields.slug'))
                                 ->required()
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true),
                             RichEditor::make('content')
-                                ->label('Isi Konten Halaman')
+                                ->label(__('admin.fields.content'))
                                 ->required()
                                 ->columnSpanFull(),
                         ])
                         ->columnSpan(2),
 
-                    Section::make('Pengaturan Tampilan')
+                    Section::make(__('admin.sections.page_settings'))
                         ->schema([
                             Select::make('user_id')
-                                ->label('Penulis / Editor')
+                                ->label(__('admin.fields.editor'))
                                 ->relationship('user', 'name')
                                 ->default(fn () => auth()->id())
                                 ->required(),
                             Select::make('status')
-                                ->label('Status Publikasi')
-                                ->options([
-                                    'draft' => 'Draft',
-                                    'published' => 'Dipublikasikan',
-                                ])
+                                ->label(__('admin.fields.status'))
+                                ->options(fn (): array => __('admin.options.page_status'))
                                 ->default('published')
                                 ->required(),
                             TextInput::make('sort_order')
-                                ->label('Urutan Tampilan')
+                                ->label(__('admin.fields.sort_order'))
                                 ->numeric()
                                 ->default(0),
                             Toggle::make('show_in_menu')
-                                ->label('Tampilkan pada Navigasi Menu')
+                                ->label(__('admin.fields.show_in_menu'))
                                 ->default(false),
                             FileUpload::make('image')
-                                ->label('Gambar Banner / Cover')
+                                ->label(__('admin.fields.banner_cover'))
                                 ->disk('public')
                                 ->directory('pages')
                                 ->image()

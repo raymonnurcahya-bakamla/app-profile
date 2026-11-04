@@ -19,20 +19,20 @@ class StatsOverviewWidget extends BaseStatsOverviewWidget
         $answeredQuestions = Question::where('status', 'answered')->count();
 
         return [
-            Stat::make('Total Artikel Terbit', $publishedPosts)
-                ->description('Artikel publik yang aktif')
+            Stat::make(__('admin.widgets.stats.total_posts'), $publishedPosts)
+                ->description(__('admin.widgets.stats.total_posts_desc'))
                 ->descriptionIcon('heroicon-m-document-text')
                 ->color('success'),
-            Stat::make('Total Pembaca (Views)', number_format($totalViews))
-                ->description('Akumulasi pembaca artikel')
+            Stat::make(__('admin.widgets.stats.total_views'), number_format($totalViews))
+                ->description(__('admin.widgets.stats.total_views_desc'))
                 ->descriptionIcon('heroicon-m-eye')
                 ->color('primary'),
-            Stat::make('Pertanyaan Menunggu', $pendingQuestions)
-                ->description('Perlu tindak lanjut / jawaban')
+            Stat::make(__('admin.widgets.stats.pending_questions'), $pendingQuestions)
+                ->description(__('admin.widgets.stats.pending_questions_desc'))
                 ->descriptionIcon('heroicon-m-clock')
                 ->color($pendingQuestions > 0 ? 'warning' : 'gray'),
-            Stat::make('Pertanyaan Selesai Dijawab', $answeredQuestions)
-                ->description('Respon terkirim ke masyarakat')
+            Stat::make(__('admin.widgets.stats.answered_questions'), $answeredQuestions)
+                ->description(__('admin.widgets.stats.answered_questions_desc'))
                 ->descriptionIcon('heroicon-m-check-badge')
                 ->color('info'),
         ];

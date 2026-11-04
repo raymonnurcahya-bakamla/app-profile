@@ -18,41 +18,35 @@ class SettingForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Pengaturan')
+                Section::make(__('admin.sections.setting_info'))
                     ->schema([
                         Grid::make(3)->schema([
                             TextInput::make('group')
-                                ->label('Grup')
+                                ->label(__('admin.fields.group'))
                                 ->default('general')
                                 ->required(),
                             TextInput::make('key')
-                                ->label('Key')
+                                ->label(__('admin.fields.key'))
                                 ->required()
                                 ->unique(ignoreRecord: true),
                             Select::make('type')
-                                ->label('Tipe Nilai')
-                                ->options([
-                                    'text' => 'Teks Singkat',
-                                    'textarea' => 'Teks Panjang',
-                                    'image' => 'Gambar / Logo',
-                                    'boolean' => 'Boolean / Toggle',
-                                    'json' => 'JSON Format',
-                                ])
+                                ->label(__('admin.fields.type'))
+                                ->options(fn (): array => __('admin.options.setting_types'))
                                 ->default('text')
                                 ->required()
                                 ->live(),
                         ]),
                         TextInput::make('value')
-                            ->label('Nilai (Teks)')
+                            ->label(__('admin.fields.value_text'))
                             ->visible(fn (Get $get): bool => $get('type') === 'text')
                             ->columnSpanFull(),
                         Textarea::make('value')
-                            ->label('Nilai (Teks Panjang / JSON)')
+                            ->label(__('admin.fields.value_long'))
                             ->rows(5)
                             ->visible(fn (Get $get): bool => in_array($get('type'), ['textarea', 'json'], true))
                             ->columnSpanFull(),
                         FileUpload::make('value')
-                            ->label('Upload Gambar')
+                            ->label(__('admin.fields.upload_image'))
                             ->disk('public')
                             ->directory('settings')
                             ->image()
@@ -60,7 +54,7 @@ class SettingForm
                             ->visible(fn (Get $get): bool => $get('type') === 'image')
                             ->columnSpanFull(),
                         Toggle::make('value')
-                            ->label('Aktifkan')
+                            ->label(__('admin.fields.active'))
                             ->visible(fn (Get $get): bool => $get('type') === 'boolean')
                             ->columnSpanFull(),
                     ]),

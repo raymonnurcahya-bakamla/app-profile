@@ -17,47 +17,37 @@ class SettingsTable
         return $table
             ->columns([
                 TextColumn::make('group')
-                    ->label('Grup')
+                    ->label(__('admin.fields.group'))
                     ->badge()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('key')
-                    ->label('Key')
+                    ->label(__('admin.fields.key'))
                     ->sortable()
                     ->searchable()
                     ->copyable(),
                 TextColumn::make('type')
-                    ->label('Tipe')
+                    ->label(__('admin.fields.type'))
                     ->badge()
-                    ->color('gray'),
+                    ->color('gray')
+                    ->formatStateUsing(fn (string $state): string => __('admin.options.setting_types_simple.'.$state) ?: $state),
                 TextColumn::make('value')
-                    ->label('Nilai')
+                    ->label(__('admin.fields.value'))
                     ->limit(50)
                     ->searchable(),
                 TextColumn::make('updated_at')
-                    ->label('Terakhir Diubah')
+                    ->label(__('admin.fields.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('group')
-                    ->label('Grup')
-                    ->options([
-                        'general' => 'General',
-                        'profile' => 'Profil',
-                        'contact' => 'Kontak',
-                        'social' => 'Media Sosial',
-                    ]),
+                    ->label(__('admin.fields.group'))
+                    ->options(fn (): array => __('admin.options.setting_groups')),
                 SelectFilter::make('type')
-                    ->label('Tipe')
-                    ->options([
-                        'text' => 'Teks Singkat',
-                        'textarea' => 'Teks Panjang',
-                        'image' => 'Gambar',
-                        'boolean' => 'Boolean',
-                        'json' => 'JSON',
-                    ]),
+                    ->label(__('admin.fields.type'))
+                    ->options(fn (): array => __('admin.options.setting_types_simple')),
             ])
             ->recordActions([
                 EditAction::make(),

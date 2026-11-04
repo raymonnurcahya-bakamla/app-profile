@@ -14,7 +14,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use UnitEnum;
 
 class QuestionResource extends Resource
 {
@@ -22,9 +21,27 @@ class QuestionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Layanan Masyarakat';
-
     protected static ?int $navigationSort = 2;
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.models.question.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.models.question.plural');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.models.question.navigation');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('admin.groups.questions');
+    }
 
     public static function form(Schema $schema): Schema
     {

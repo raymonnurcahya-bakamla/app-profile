@@ -21,26 +21,26 @@ class PostsTable
         return $table
             ->columns([
                 ImageColumn::make('image')
-                    ->label('Sampul')
+                    ->label(__('admin.fields.cover'))
                     ->disk('public')
                     ->circular(),
                 TextColumn::make('title')
-                    ->label('Judul')
+                    ->label(__('admin.fields.title'))
                     ->searchable()
                     ->sortable()
                     ->wrap()
                     ->limit(50),
                 TextColumn::make('category.name')
-                    ->label('Kategori')
+                    ->label(__('admin.fields.category'))
                     ->badge()
                     ->color('info')
                     ->sortable(),
                 TextColumn::make('user.name')
-                    ->label('Penulis')
+                    ->label(__('admin.fields.author'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('admin.fields.status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'published' => 'success',
@@ -48,33 +48,30 @@ class PostsTable
                         'archived' => 'gray',
                         default => 'gray',
                     })
+                    ->formatStateUsing(fn (string $state): string => __('admin.options.post_status.'.$state) ?: $state)
                     ->sortable(),
                 IconColumn::make('is_featured')
-                    ->label('Unggulan')
+                    ->label(__('admin.fields.is_featured'))
                     ->boolean()
                     ->sortable(),
                 TextColumn::make('view_count')
-                    ->label('Views')
+                    ->label(__('admin.fields.views'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('published_at')
-                    ->label('Waktu Publikasi')
+                    ->label(__('admin.fields.published_time'))
                     ->dateTime('d M Y, H:i')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('category')
-                    ->label('Kategori')
+                    ->label(__('admin.fields.category'))
                     ->relationship('category', 'name'),
                 SelectFilter::make('status')
-                    ->label('Status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'published' => 'Dipublikasikan',
-                        'archived' => 'Diarsipkan',
-                    ]),
+                    ->label(__('admin.fields.status'))
+                    ->options(fn (): array => __('admin.options.post_status')),
                 Filter::make('is_featured')
-                    ->label('Hanya Unggulan')
+                    ->label(__('admin.fields.only_featured'))
                     ->query(fn (Builder $query) => $query->where('is_featured', true)),
             ])
             ->recordActions([

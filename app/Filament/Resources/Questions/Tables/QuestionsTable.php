@@ -17,26 +17,26 @@ class QuestionsTable
         return $table
             ->columns([
                 TextColumn::make('subject')
-                    ->label('Subjek Pertanyaan')
+                    ->label(__('admin.fields.subject'))
                     ->searchable()
                     ->sortable()
                     ->wrap()
                     ->limit(50),
                 TextColumn::make('name')
-                    ->label('Penanya')
+                    ->label(__('admin.fields.inquirer'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('admin.fields.email'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('topic.name')
-                    ->label('Topik')
+                    ->label(__('admin.fields.topic'))
                     ->badge()
                     ->color('info')
                     ->sortable(),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('admin.fields.status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'answered' => 'success',
@@ -44,23 +44,20 @@ class QuestionsTable
                         'rejected' => 'danger',
                         default => 'gray',
                     })
+                    ->formatStateUsing(fn (string $state): string => __('admin.options.question_status.'.$state) ?: $state)
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Diterima Pada')
+                    ->label(__('admin.fields.received_at'))
                     ->dateTime('d M Y, H:i')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('topic')
-                    ->label('Topik')
+                    ->label(__('admin.fields.topic'))
                     ->relationship('topic', 'name'),
                 SelectFilter::make('status')
-                    ->label('Status')
-                    ->options([
-                        'pending' => 'Menunggu Jawaban',
-                        'answered' => 'Sudah Dijawab',
-                        'rejected' => 'Ditolak',
-                    ]),
+                    ->label(__('admin.fields.status'))
+                    ->options(fn (): array => __('admin.options.question_status')),
             ])
             ->recordActions([
                 EditAction::make(),

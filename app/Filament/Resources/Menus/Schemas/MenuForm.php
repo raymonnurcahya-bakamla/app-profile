@@ -16,58 +16,49 @@ class MenuForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Menu')
+                Section::make(__('admin.sections.menu_info'))
                     ->schema([
                         Grid::make(3)->schema([
                             TextInput::make('name')
-                                ->label('Nama Menu')
+                                ->label(__('admin.fields.name'))
                                 ->placeholder('Contoh: Menu Navigasi Utama')
                                 ->required()
                                 ->maxLength(255),
                             Select::make('location')
-                                ->label('Lokasi Penempatan')
-                                ->options([
-                                    'header' => 'Header (Navigasi Atas)',
-                                    'footer' => 'Footer (Navigasi Bawah)',
-                                    'sidebar' => 'Sidebar (Bilah Samping)',
-                                ])
+                                ->label(__('admin.fields.location'))
+                                ->options(fn (): array => __('admin.options.menu_locations'))
                                 ->default('header')
                                 ->required(),
                             Toggle::make('is_active')
-                                ->label('Status Aktif')
+                                ->label(__('admin.fields.is_active'))
                                 ->default(true),
                         ]),
                     ]),
 
-                Section::make('Daftar Item Menu (Navigasi)')
+                Section::make(__('admin.sections.menu_items'))
                     ->schema([
                         Repeater::make('items')
                             ->relationship()
                             ->schema([
                                 TextInput::make('label')
-                                    ->label('Label Menu')
+                                    ->label(__('admin.fields.label'))
                                     ->required()
                                     ->maxLength(255),
                                 TextInput::make('url')
-                                    ->label('URL / Tautan')
+                                    ->label(__('admin.fields.url'))
                                     ->placeholder('/tentang-kami atau https://...')
                                     ->maxLength(255),
                                 Select::make('type')
-                                    ->label('Jenis')
-                                    ->options([
-                                        'custom' => 'Tautan Kustom',
-                                        'page' => 'Halaman Statis',
-                                        'category' => 'Kategori Post',
-                                        'post' => 'Artikel Tertentu',
-                                    ])
+                                    ->label(__('admin.fields.type'))
+                                    ->options(fn (): array => __('admin.options.menu_types'))
                                     ->default('custom')
                                     ->required(),
                                 TextInput::make('sort_order')
-                                    ->label('Urutan')
+                                    ->label(__('admin.fields.sort_order'))
                                     ->numeric()
                                     ->default(0),
                                 Toggle::make('is_active')
-                                    ->label('Aktif')
+                                    ->label(__('admin.fields.active'))
                                     ->default(true),
                             ])
                             ->columns(5)

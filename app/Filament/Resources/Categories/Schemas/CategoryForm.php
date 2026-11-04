@@ -17,11 +17,11 @@ class CategoryForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Kategori')
+                Section::make(__('admin.sections.category_info'))
                     ->schema([
                         Grid::make(2)->schema([
                             TextInput::make('name')
-                                ->label('Nama Kategori')
+                                ->label(__('admin.fields.name'))
                                 ->required()
                                 ->maxLength(255)
                                 ->live(onBlur: true)
@@ -30,24 +30,24 @@ class CategoryForm
                                     Str::slug($state ?? '')
                                 )),
                             TextInput::make('slug')
-                                ->label('Slug URL')
+                                ->label(__('admin.fields.slug'))
                                 ->required()
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true),
                             TextInput::make('icon')
-                                ->label('Icon (Opsional)')
+                                ->label(__('admin.fields.icon'))
                                 ->placeholder('heroicon-o-folder')
                                 ->maxLength(255),
                             TextInput::make('sort_order')
-                                ->label('Urutan')
+                                ->label(__('admin.fields.sort_order'))
                                 ->numeric()
                                 ->default(0),
                             Toggle::make('is_active')
-                                ->label('Status Aktif')
+                                ->label(__('admin.fields.is_active'))
                                 ->default(true)
                                 ->columnSpanFull(),
                             Textarea::make('description')
-                                ->label('Deskripsi')
+                                ->label(__('admin.fields.description'))
                                 ->rows(3)
                                 ->columnSpanFull(),
                         ]),

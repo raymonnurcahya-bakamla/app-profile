@@ -15,7 +15,10 @@ class LatestQuestionsWidget extends TableWidget
 
     protected int|string|array $columnSpan = 'full';
 
-    protected static ?string $heading = 'Pertanyaan Masyarakat Terbaru';
+    public function getTableHeading(): string
+    {
+        return __('admin.widgets.latest_questions.heading');
+    }
 
     public function table(Table $table): Table
     {
@@ -23,26 +26,27 @@ class LatestQuestionsWidget extends TableWidget
             ->query(fn (): Builder => Question::query()->with('topic')->latest()->limit(5))
             ->columns([
                 TextColumn::make('subject')
-                    ->label('Subjek Pertanyaan')
+                    ->label(__('admin.fields.subject'))
                     ->limit(40)
                     ->wrap(),
                 TextColumn::make('name')
-                    ->label('Penanya'),
+                    ->label(__('admin.fields.inquirer')),
                 TextColumn::make('topic.name')
-                    ->label('Topik')
+                    ->label(__('admin.fields.topic'))
                     ->badge()
                     ->color('info'),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('admin.fields.status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'answered' => 'success',
                         'pending' => 'warning',
                         'rejected' => 'danger',
                         default => 'gray',
-                    }),
+                    })
+                    ->formatStateUsing(fn (string $state): string => __('admin.options.question_status.'.$state) ?: $state),
                 TextColumn::make('created_at')
-                    ->label('Waktu Masuk')
+                    ->label(__('admin.fields.received_at'))
                     ->since(),
             ])
             ->recordUrl(fn (Question $record): string => QuestionResource::getUrl('edit', ['record' => $record]))

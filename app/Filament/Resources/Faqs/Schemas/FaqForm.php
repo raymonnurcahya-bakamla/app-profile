@@ -16,31 +16,31 @@ class FaqForm
     {
         return $schema
             ->components([
-                Section::make('Informasi FAQ')
+                Section::make(__('admin.sections.faq_info'))
                     ->schema([
                         Grid::make(3)->schema([
                             Select::make('topic_id')
-                                ->label('Topik FAQ')
+                                ->label(__('admin.fields.topic'))
                                 ->relationship('topic', 'name')
                                 ->searchable()
                                 ->preload()
                                 ->required(),
                             TextInput::make('sort_order')
-                                ->label('Urutan')
+                                ->label(__('admin.fields.sort_order'))
                                 ->numeric()
                                 ->default(0),
                             Toggle::make('is_active')
-                                ->label('Status Aktif')
+                                ->label(__('admin.fields.is_active'))
                                 ->default(true),
                         ]),
                         TextInput::make('question')
-                            ->label('Pertanyaan yang Sering Diajukan')
-                            ->placeholder('Contoh: Bagaimana cara mengurus surat keterangan?')
+                            ->label(__('admin.fields.faq_question'))
+                            ->placeholder(__('admin.fields.faq_question_placeholder'))
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
                         RichEditor::make('answer')
-                            ->label('Jawaban Lengkap')
+                            ->label(__('admin.fields.answer_full'))
                             ->required()
                             ->columnSpanFull(),
                     ]),
